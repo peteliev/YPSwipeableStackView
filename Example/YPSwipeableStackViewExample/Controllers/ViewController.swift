@@ -7,14 +7,52 @@
 //
 
 import UIKit
+import YPSwipeableStackView
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+final public class ViewController: UIViewController {
+    
+    private enum Settings {
+        static let itemsCount: Int = 7
     }
-
-
+    
+    @IBOutlet private weak var swipeableStackView: YPSwipeableStackView!
+    
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupSwipeableStackView()
+        swipeableStackView.reloadData()
+    }
 }
 
+// MARK: - YPSwipeableStackViewDataSource
+extension ViewController: YPSwipeableStackViewDataSource {
+    
+    public func numberOfItems(in swipeableStackView: YPSwipeableStackView) -> Int {
+        return Settings.itemsCount
+    }
+    
+    public func swipeableStackView(_ swipeableStackView: YPSwipeableStackView, forItemAt index: Int) -> YPSwipeableStackViewItem {
+        let item = YPSwipeableStackViewItem()
+        item.backgroundColor = .black
+        
+        return item
+    }
+}
+
+// MARK: - YPSwipeableStackViewDelegate
+extension ViewController: YPSwipeableStackViewDelegate {
+    
+    public func swipeableStackView(_ swipeableStackView: YPSwipeableStackView, didSelectItemAt index: Int) {
+        print("didSelectItemAt: \(index)")
+    }
+}
+
+// MARK: - Private Methods
+private extension ViewController {
+    
+    func setupSwipeableStackView() {
+        swipeableStackView.delegate = self
+        swipeableStackView.dataSource = self
+    }
+}
