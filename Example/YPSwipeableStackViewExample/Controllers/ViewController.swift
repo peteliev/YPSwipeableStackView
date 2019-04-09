@@ -33,8 +33,8 @@ extension ViewController: YPSwipeableStackViewDataSource {
     }
     
     public func swipeableStackView(_ swipeableStackView: YPSwipeableStackView, forItemAt index: Int) -> YPSwipeableStackViewItem {
-        let item = YPSwipeableStackViewItem()
-        item.backgroundColor = .black
+        let item: AnimalProfileView = AnimalProfileView()
+        item.highlightColor = .white
         
         return item
     }

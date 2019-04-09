@@ -8,7 +8,7 @@
 
 import UIKit
 
-final public class YPSwipeableStackViewItem: UIView {
+open class YPSwipeableStackViewItem: UIView {
     
     private enum Settings {
         enum DragAnimation {
@@ -36,7 +36,7 @@ final public class YPSwipeableStackViewItem: UIView {
         commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -106,9 +106,9 @@ private extension YPSwipeableStackViewItem {
 private extension YPSwipeableStackViewItem {
     
     private var dragDirection: SwipeDirection? {
-        let normalizedDragPoint = panGestureTranslation.normalizedDistanceForSize(bounds.size)
+        let normalizedDragPoint = panGestureTranslation.normalizedDistance(for: bounds.size)
         return SwipeDirection.allDirections.reduce((distance: CGFloat.infinity, direction: nil), { closest, direction -> (CGFloat, SwipeDirection?) in
-            let distance = direction.point.distanceTo(normalizedDragPoint)
+            let distance = direction.point.distance(to: normalizedDragPoint)
             if distance < closest.distance {
                 return (distance, direction)
             }
@@ -119,29 +119,32 @@ private extension YPSwipeableStackViewItem {
     private var dragPercentage: CGFloat {
         guard let dragDirection = dragDirection else { return 0.0 }
         
-        let normalizedDragPoint = panGestureTranslation.normalizedDistanceForSize(frame.size)
-        let swipePoint = normalizedDragPoint.scalarProjectionPointWith(dragDirection.point)
+        let normalizedDragPoint = panGestureTranslation.normalizedDistance(for: frame.size)
+        let swipePoint = normalizedDragPoint.scalarProjectionPoint(with: dragDirection.point)
         let rect = SwipeDirection.boundsRect
         
         if !rect.contains(swipePoint) {
             return 1.0
         } else {
-            let centerDistance = swipePoint.distanceTo(.zero)
+            let centerDistance = swipePoint.distance(to: .zero)
             let targetLine = (swipePoint, CGPoint.zero)
             return rect.perimeterLines
                 .compactMap { CGPoint.intersectionBetweenLines(targetLine, line2: $0) }
-                .map { centerDistance / $0.distanceTo(.zero) }
+                .map { centerDistance / $0.distance(to: .zero) }
                 .min() ?? 0.0
         }
     }
     
     func endedPanAnimation() {
         if let dragDirection = dragDirection, dragPercentage >= Settings.DragAnimation.swipePercentageMargin {
-            let translationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerTranslationXY)
-            translationAnimation?.duration = SwipeableView.finalizeSwipeActionAnimationDuration
-            translationAnimation?.fromValue = NSValue(cgPoint: POPLayerGetTranslationXY(layer))
-            translationAnimation?.toValue = NSValue(cgPoint: animationPointForDirection(dragDirection))
-            layer.pop_add(translationAnimation, forKey: "swipeTranslationAnimation")
+            let newPosition = layer.position + animationPointForDirection(dragDirection)
+            let translationAnimation = CABasicAnimation(keyPath: "position")
+            translationAnimation.duration = Settings.SwipeAnimation.finalizeSwipeActionAnimationDuration
+            translationAnimation.fromValue = layer.position
+            translationAnimation.toValue = newPosition
+            
+            layer.position = newPosition
+            layer.add(translationAnimation, forKey: "swipeTranslationAnimation")
             delegate?.didEndSwipe(onItem: self)
         } else {
             resetItemPosition()
@@ -158,22 +161,29 @@ private extension YPSwipeableStackViewItem {
         removeAnimations()
         
         // Reset Translation
-        let resetPositionAnimation = POPSpringAnimation(propertyNamed: kPOPLayerTranslationXY)
-        resetPositionAnimation?.fromValue = NSValue(cgPoint:POPLayerGetTranslationXY(layer))
-        resetPositionAnimation?.toValue = NSValue(cgPoint: CGPoint.zero)
-        resetPositionAnimation?.springBounciness = Settings.ResetAnimation.cardViewResetAnimationSpringBounciness
-        resetPositionAnimation?.springSpeed = Settings.ResetAnimation.cardViewResetAnimationSpringSpeed
-        resetPositionAnimation?.completionBlock = { _, _ in
+        CATransaction.begin()
+        CATransaction.setCompletionBlock {
             self.layer.transform = CATransform3DIdentity
         }
-        layer.pop_add(resetPositionAnimation, forKey: "resetPositionAnimation")
+        
+        let newPosition = (layer.presentation() ?? layer).position
+        let resetPositionAnimation = CASpringAnimation(keyPath: "position")
+        resetPositionAnimation.fromValue = layer.position
+        resetPositionAnimation.toValue = CGPoint.zero
+        resetPositionAnimation.damping = Settings.ResetAnimation.cardViewResetAnimationSpringBounciness
+        resetPositionAnimation.speed = Float(Settings.ResetAnimation.cardViewResetAnimationSpringSpeed)
+        
+        layer.position = newPosition
+        layer.add(resetPositionAnimation, forKey: "resetPositionAnimation")
+        
+        CATransaction.commit()
 
-        // Reset Rotation
-        let resetRotationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerRotation)
-        resetRotationAnimation?.fromValue = POPLayerGetRotationZ(layer)
-        resetRotationAnimation?.toValue = CGFloat(0.0)
-        resetRotationAnimation?.duration = Settings.ResetAnimation.cardViewResetAnimationDuration
-        layer.pop_add(resetRotationAnimation, forKey: "resetRotationAnimation")
+//        // Reset Rotation
+//        let resetRotationAnimation = POPBasicAnimation(propertyNamed: kPOPLayerRotation)
+//        resetRotationAnimation?.fromValue = POPLayerGetRotationZ(layer)
+//        resetRotationAnimation?.toValue = CGFloat(0.0)
+//        resetRotationAnimation?.duration = Settings.ResetAnimation.cardViewResetAnimationDuration
+//        layer.pop_add(resetRotationAnimation, forKey: "resetRotationAnimation")
     }
     
     func removeAnimations() {

@@ -32,6 +32,7 @@
 		6FE40747225BFF9400FA0889 /* SwipeDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeDirection.swift; sourceTree = "<group>"; };
 		6FE40749225C014C00FA0889 /* CGRect+Additional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Additional.swift"; sourceTree = "<group>"; };
 		6FE4074B225C01D400FA0889 /* CGPoint+Additional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Additional.swift"; sourceTree = "<group>"; };
+		6FE4074E225C092100FA0889 /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = "../../../Library/Developer/Xcode/DerivedData/pop-hhbqqvumvtwjzigfkxiozlovfcng/Build/Products/Debug-iphoneos/pop.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +51,7 @@
 			children = (
 				6FE404E5225BD66800FA0889 /* YPSwipeableStackView */,
 				6FE404E4225BD66800FA0889 /* Products */,
+				6FE4074D225C092100FA0889 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +119,14 @@
 				6FE406C2225BECC600FA0889 /* YPSwipeableStackViewItem.swift */,
 			);
 			path = Item;
+			sourceTree = "<group>";
+		};
+		6FE4074D225C092100FA0889 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6FE4074E225C092100FA0889 /* pop.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

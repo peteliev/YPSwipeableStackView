@@ -8,34 +8,97 @@
 
 import Foundation
 
+public func + (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x + right.x, y: left.y + right.y)
+}
+public func += (left: inout CGPoint, right: CGPoint) {
+    left = left + right
+}
+
+public func - (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x - right.x, y: left.y - right.y)
+}
+public func -= (left: inout CGPoint, right: CGPoint) {
+    left = left - right
+}
+
+public func * (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x * right.x, y: left.y * right.y)
+}
+public func *= (left: inout CGPoint, right: CGPoint) {
+    left = left * right
+}
+
+public func + (point: CGPoint, scalar: CGFloat) -> CGPoint {
+    return CGPoint(x: point.x + scalar, y: point.y + scalar)
+}
+public func += (point: inout CGPoint, scalar: CGFloat) {
+    point = point + scalar
+}
+
+public func - (point: CGPoint, scalar: CGFloat) -> CGPoint {
+    return CGPoint(x: point.x - scalar, y: point.y - scalar)
+}
+public func -= (point: inout CGPoint, scalar: CGFloat) {
+    point = point - scalar
+}
+
+public func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
+    return CGPoint(x: point.x * scalar, y: point.y * scalar)
+}
+public func *= (point: inout CGPoint, scalar: CGFloat) {
+    point = point * scalar
+}
+
+public func / (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x / right.x, y: left.y / right.y)
+}
+public func /= ( left: inout CGPoint, right: CGPoint) {
+    left = left / right
+}
+
+public func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
+    return CGPoint(x: point.x / scalar, y: point.y / scalar)
+}
+public func /= (point: inout CGPoint, scalar: CGFloat) {
+    point = point / scalar
+}
+
+
 public extension CGPoint {
     
-    func distanceTo(_ point: CGPoint) -> CGFloat {
+    var modulo: CGFloat {
+        return sqrt(self.x*self.x + self.y*self.y)
+    }
+    
+    func distance(to point: CGPoint) -> CGFloat {
         return sqrt(pow(point.x - self.x, 2) + pow(point.y - self.y, 2))
     }
     
-    func normalizedDistanceForSize(_ size: CGSize) -> CGPoint {
+    func normalizedDistance(for size: CGSize) -> CGPoint {
         // multiplies by 2 because coordinate system is (-1,1)
         let x = 2 * (self.x / size.width)
         let y = 2 * (self.y / size.height)
         return CGPoint(x: x, y: y)
     }
     
-    func scalarProjectionPointWith(_ point: CGPoint) -> CGPoint {
-        let r = scalarProjectionWith(point) / point.modulo
+    func scalarProjectionPoint(with point: CGPoint) -> CGPoint {
+        let r = scalarProjection(with: point) / point.modulo
         return CGPoint(x: point.x * r, y: point.y * r)
     }
     
-    func scalarProjectionWith(_ point: CGPoint) -> CGFloat {
-        return dotProductWith(point) / point.modulo
+    func scalarProjection(with point: CGPoint) -> CGFloat {
+        return dotProduct(with: point) / point.modulo
     }
     
-    func dotProductWith(_ point: CGPoint) -> CGFloat {
+    func dotProduct(with point: CGPoint) -> CGFloat {
         return (self.x * point.x) + (self.y * point.y)
     }
     
-    var modulo: CGFloat {
-        return sqrt(self.x*self.x + self.y*self.y)
+    func screenPointForSize(_ screenSize: CGSize) -> CGPoint {
+        let x = 0.5 * (1 + self.x) * screenSize.width
+        let y = 0.5 * (1 + self.y) * screenSize.height
+        return CGPoint(x: x, y: y)
     }
     
     static func intersectionBetweenLines(_ line1: CGLine, line2: CGLine) -> CGPoint? {
@@ -53,11 +116,5 @@ public extension CGPoint {
             return CGPoint(x: p1.x + ua / d * (p2.x - p1.x), y: p1.y + ua / d * (p2.y - p1.y))
         }
         return nil
-    }
-    
-    func screenPointForSize(_ screenSize: CGSize) -> CGPoint {
-        let x = 0.5 * (1 + self.x) * screenSize.width
-        let y = 0.5 * (1 + self.y) * screenSize.height
-        return CGPoint(x: x, y: y)
     }
 }
