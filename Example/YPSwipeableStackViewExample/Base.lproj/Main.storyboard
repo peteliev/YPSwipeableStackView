@@ -26,12 +26,42 @@
                                 </constraints>
                                 <viewLayoutGuide key="safeArea" id="Dja-JA-TcP"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RBw-H1-Hie" customClass="ColoredView" customModule="YPSwipeableStackViewExample" customModuleProvider="target">
+                                <rect key="frame" x="20" y="64" width="335" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just Keep Swiping" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hx-zN-d2o">
+                                        <rect key="frame" x="20" y="20" width="295" height="40"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="29"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="4hx-zN-d2o" firstAttribute="leading" secondItem="RBw-H1-Hie" secondAttribute="leading" constant="20" id="78a-ac-0nG"/>
+                                    <constraint firstAttribute="trailing" secondItem="4hx-zN-d2o" secondAttribute="trailing" constant="20" id="Blr-df-V4i"/>
+                                    <constraint firstAttribute="bottom" secondItem="4hx-zN-d2o" secondAttribute="bottom" constant="20" id="n15-1D-3C7"/>
+                                    <constraint firstItem="4hx-zN-d2o" firstAttribute="top" secondItem="RBw-H1-Hie" secondAttribute="top" constant="20" id="wxC-A7-y9W"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="2Pg-CQ-Sos" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="DMq-v7-6Pi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2Pg-CQ-Sos" secondAttribute="trailing" constant="20" id="Pyo-De-5rR"/>
+                            <constraint firstItem="2Pg-CQ-Sos" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RBw-H1-Hie" secondAttribute="bottom" constant="20" id="Usn-qt-KoL"/>
                             <constraint firstItem="2Pg-CQ-Sos" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="YR0-wZ-uWy"/>
+                            <constraint firstItem="RBw-H1-Hie" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="a3u-RT-Nlg"/>
+                            <constraint firstItem="RBw-H1-Hie" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="bLx-WI-yYc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RBw-H1-Hie" secondAttribute="trailing" constant="20" id="fBv-jK-Fgd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
