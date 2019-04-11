@@ -12,13 +12,4 @@ public protocol YPSwipeableStackViewDataSource: class {
     
     func numberOfItems(in swipeableStackView: YPSwipeableStackView) -> Int
     func swipeableStackView(_ swipeableStackView: YPSwipeableStackView, forItemAt index: Int) -> YPSwipeableStackViewItem
-    func viewForStub(in swipeableStackView: YPSwipeableStackView) -> UIView?
-}
-
-// MARK: - Default Implementation
-public extension YPSwipeableStackViewDataSource {
-    
-    func viewForStub(in swipeableStackView: YPSwipeableStackView) -> UIView? {
-        return nil
-    }
 }

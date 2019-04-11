@@ -10,7 +10,7 @@ import Foundation
 
 public protocol YPSwipeableStackViewItemDelegate: class {
     
-    func didTap(item: YPSwipeableStackViewItem)
+    func didSelect(item: YPSwipeableStackViewItem)
     func didBeginSwipe(onItem item: YPSwipeableStackViewItem)
     func didEndSwipe(onItem item: YPSwipeableStackViewItem)
 }
