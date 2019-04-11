@@ -49,11 +49,6 @@ final public class YPSwipeableStackView: UIView {
         for index in 0..<min(numberOfItems, Settings.numberOfVisibleItems) {
             addItem(dataSource.swipeableStackView(self, forItemAt: index), at: index)
         }
-        
-        if let emptyView = dataSource.viewForStub(in: self) {
-            embedView(emptyView)
-        }
-        setNeedsLayout()
     }
     
     // MARK: - Private Properties
@@ -65,26 +60,51 @@ final public class YPSwipeableStackView: UIView {
 }
 
 // MARK: - Private Methods
+extension YPSwipeableStackView: YPSwipeableStackViewItemDelegate {
+    
+    public func didSelect(item: YPSwipeableStackViewItem) {
+        guard let itemIndex = items.firstIndex(of: item) else { return }
+        delegate?.swipeableStackView(self, didSelectItemAt: itemIndex)
+    }
+    
+    public func didEndSwipe(onItem item: YPSwipeableStackViewItem) {
+        guard let dataSource = dataSource else { return }
+        item.removeFromSuperview()
+        
+        guard remainingItemsCount > 0 else { return }
+        let newIndex = dataSource.numberOfItems(in: self) - remainingItemsCount
+        addItem(dataSource.swipeableStackView(self, forItemAt: newIndex), at: Settings.numberOfVisibleItems - 1)
+        
+        for (itemIndex, item) in visibleItems.reversed().enumerated() {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.setFrame(for: item, at: itemIndex)
+                self.layoutIfNeeded()
+            })
+        }
+    }
+}
+
+// MARK: - Private Methods
 private extension YPSwipeableStackView {
     
     func removeAllCardViews() {
-        visibleItems.forEach { item in item.removeFromSuperview() }
+        visibleItems.forEach { $0.removeFromSuperview() }
         items = []
     }
     
     func addItem(_ item: YPSwipeableStackViewItem, at index: Int) {
+        item.delegate = self
+        remainingItemsCount -= 1
+        
         items.append(item)
         insertSubview(item, at: 0)
         setFrame(for: item, at: index)
-        
-        // item.delegate = self
-        remainingItemsCount -= 1
     }
     
     func setFrame(for itemView: YPSwipeableStackViewItem, at index: Int) {
         var itemViewFrame = bounds
-        let horizontalInset = (CGFloat(index) * Settings.Inset.horizontal)
         let verticalInset = CGFloat(index) * Settings.Inset.vertical
+        let horizontalInset = CGFloat(index) * Settings.Inset.horizontal
         
         itemViewFrame.size.width -= 2 * horizontalInset
         itemViewFrame.origin.x += horizontalInset
