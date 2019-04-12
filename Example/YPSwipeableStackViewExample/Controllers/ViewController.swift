@@ -23,7 +23,6 @@ final public class ViewController: UIViewController {
         AnimalProfile(name: "Shirley Dixon", nickname: "@dixon", profession: "Administrator", icon: #imageLiteral(resourceName: "koala"), highlightColor: .init(hex: 0x6495ED)),
         AnimalProfile(name: "Ronnie Leib", nickname: "@leib", profession: "Manager", icon: #imageLiteral(resourceName: "lemur"), highlightColor: .init(hex: 0x808000)),
         AnimalProfile(name: "Ronnie Rivers", nickname: "@rrivers", profession: "Director", icon: #imageLiteral(resourceName: "pig"), highlightColor: .init(hex: 0xFFF5EE)),
-        
         AnimalProfile(name: "Anne Seigler", nickname: "@aseigler", profession: "Auditor", icon: #imageLiteral(resourceName: "tiger"), highlightColor: .init(hex: 0x5F9EA0)),
         AnimalProfile(name: "Seigler Wilson", nickname: "@wilson", profession: "Artist", icon: #imageLiteral(resourceName: "whale"), highlightColor: .init(hex: 0xFFF8DC)),
         AnimalProfile(name: "Wilson Christensen", nickname: "@christensen", profession: "Singer", icon: #imageLiteral(resourceName: "zebra"), highlightColor: .init(hex: 0xDB7093)),
