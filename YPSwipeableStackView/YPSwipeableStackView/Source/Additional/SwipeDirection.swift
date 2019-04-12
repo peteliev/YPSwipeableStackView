@@ -34,9 +34,9 @@ public enum SwipeDirection {
         return [.left, .right, .up, .down, .topLeft, .topRight, .bottomLeft, .bottomRight]
     }
     static var boundsRect: CGRect {
-        let w = HorizontalPosition.right.rawValue - HorizontalPosition.left.rawValue
-        let h = VerticalPosition.bottom.rawValue - VerticalPosition.top.rawValue
-        return CGRect(x: HorizontalPosition.left.rawValue, y: VerticalPosition.top.rawValue, width: w, height: h)
+        let width = HorizontalPosition.right.rawValue - HorizontalPosition.left.rawValue
+        let height = VerticalPosition.bottom.rawValue - VerticalPosition.top.rawValue
+        return CGRect(x: HorizontalPosition.left.rawValue, y: VerticalPosition.top.rawValue, width: width, height: height)
     }
     
     var horizontalPosition: HorizontalPosition {

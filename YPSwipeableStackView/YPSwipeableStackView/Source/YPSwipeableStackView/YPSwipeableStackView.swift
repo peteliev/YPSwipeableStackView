@@ -11,6 +11,9 @@ import UIKit
 final public class YPSwipeableStackView: UIView {
     
     private enum Settings {
+        enum AnimationDuration {
+            static let setFrame: TimeInterval = 0.2
+        }
         enum Inset {
             static let vertical: CGFloat = 12
             static let horizontal: CGFloat = 12
@@ -76,7 +79,7 @@ extension YPSwipeableStackView: YPSwipeableStackViewItemDelegate {
         addItem(dataSource.swipeableStackView(self, forItemAt: newIndex), at: Settings.numberOfVisibleItems - 1)
         
         for (itemIndex, item) in visibleItems.reversed().enumerated() {
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: Settings.AnimationDuration.setFrame, animations: {
                 self.setFrame(for: item, at: itemIndex)
                 self.layoutIfNeeded()
             })
