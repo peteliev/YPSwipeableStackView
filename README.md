@@ -13,7 +13,7 @@ YPSwipeableStackView is a class designed to implement a swipeable stack of views
 
 ## Requirements
 
-* Swift 4.0
+* Swift 4.2
 * Xcode 10+
 * iOS 10.0+
 
