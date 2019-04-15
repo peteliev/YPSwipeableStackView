@@ -74,9 +74,10 @@ extension YPSwipeableStackView: YPSwipeableStackViewItemDelegate {
         guard let dataSource = dataSource else { return }
         item.removeFromSuperview()
         
-        guard remainingItemsCount > 0 else { return }
-        let newIndex = dataSource.numberOfItems(in: self) - remainingItemsCount
-        addItem(dataSource.swipeableStackView(self, forItemAt: newIndex), at: Settings.numberOfVisibleItems - 1)
+        if remainingItemsCount > 0 {
+            let newIndex = dataSource.numberOfItems(in: self) - remainingItemsCount
+            addItem(dataSource.swipeableStackView(self, forItemAt: newIndex), at: Settings.numberOfVisibleItems - 1)
+        }
         
         for (itemIndex, item) in visibleItems.reversed().enumerated() {
             UIView.animate(withDuration: Settings.AnimationDuration.setFrame, animations: {
